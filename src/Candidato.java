@@ -1,14 +1,15 @@
-
 import java.util.Date;
 
 public class Candidato {
-    private String  nomeCandidato;
-    private int     numCandidato;
+    private String  nome;
+    private int     numero;
+    private Partido partido;
 
-    private int     votosTotais;
+    private int     votos;
 
     private Date    data;
 
-    private boolean codCandidatoEleito;
+    private boolean eleito;
     private boolean genero;
 }
+
