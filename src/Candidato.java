@@ -9,7 +9,16 @@ public class Candidato {
 
     private Date    data;
 
+    private int     genero;
     private boolean eleito;
-    private boolean genero;
+    
+    public Candidato(String nome, int numero, Partido partido, Date data, boolean eleito, int genero) {
+        this.nome = nome;
+        this.numero = numero;
+        this.partido = partido;
+        this.data = data;
+        this.eleito = eleito;
+        this.genero = genero;
+    }
 }
 
