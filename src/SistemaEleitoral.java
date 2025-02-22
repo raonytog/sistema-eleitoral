@@ -59,7 +59,7 @@ public class SistemaEleitoral {
 
             if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo) {
                 this.candidatos.put(numeroCandidato, new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero));
-                if (eleito == 1) {
+                if (eleito == 2 || eleito == 3) {
                     this.qtdEleitos++;
                 }
             }
@@ -68,6 +68,8 @@ public class SistemaEleitoral {
             sc.close();
         }
         br.close();
+
+        System.out.println(qtdEleitos);
     }
 
     public void contabilizaVotos(String pathVotacao) throws Exception {
@@ -115,9 +117,11 @@ public class SistemaEleitoral {
         }
         br.close();
 
-        for (Entry<Integer, Partido> entry : this.partidos.entrySet())
+        /*
+         * for (Entry<Integer, Partido> entry : this.partidos.entrySet())
         {
             System.out.println(entry.getValue());
         }
+         */
     }
 }   
