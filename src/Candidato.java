@@ -1,24 +1,34 @@
-import java.util.Date;
+import java.time.LocalDate;
 
 public class Candidato {
-    private String  nome;
-    private int     numero;
+    private String nome;
+    private int numero;
     private Partido partido;
 
-    private int     votos;
+    private int votos;
 
-    private Date    data;
+    private LocalDate nascimento;
 
-    private int     genero;
-    private boolean eleito;
+    private int genero;
+    private int eleito;
     
-    public Candidato(String nome, int numero, Partido partido, Date data, boolean eleito, int genero) {
+    public Candidato(String nome, int numero, Partido partido, LocalDate nascimento, int eleito, int genero) {
         this.nome = nome;
         this.numero = numero;
         this.partido = partido;
-        this.data = data;
+        this.nascimento = nascimento;
         this.eleito = eleito;
         this.genero = genero;
+    }
+
+    public void somaVotos(int qtdVotos) {
+        this.votos += qtdVotos;
+        this.partido.somaVotosNominais(qtdVotos);
+    }
+
+    @Override
+    public String toString() {
+        return nome + " " + numero;
     }
 }
 

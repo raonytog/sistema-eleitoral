@@ -5,9 +5,9 @@ public class Partido {
 
     /** Candidados, como armazenar? */
 
-    private int     totalVotos;
-    private int     totalEeitos;
-    private int     totalLegenda;
+    private int totalEleitos;
+    private int votosNominais;
+    private int votosLegenda;
     private Candidato maisVotado;
     private Candidato menosVotado;
 
@@ -15,5 +15,18 @@ public class Partido {
         this.numero = numero;
         this.sigla = sigla;
         this.federacao = federacao;
+    }
+
+    public void somaVotosLegenda(int qtdVotos) {
+        this.votosLegenda += qtdVotos;
+    }
+
+    public void somaVotosNominais(int qtdVotos) {
+        this.votosNominais += qtdVotos;
+    }
+
+    @Override
+    public String toString() {
+        return sigla + " " + numero + " " + federacao;
     }
 }
