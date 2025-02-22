@@ -22,6 +22,34 @@ public class Candidato {
         this.genero = genero;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public Partido getPartido() {
+        return partido;
+    }
+
+    public int getVotos() {
+        return votos;
+    }
+
+    public LocalDate getNascimento() {
+        return nascimento;
+    }
+
+    public int getGenero() {
+        return genero;
+    }
+
+    public int getEleito() {
+        return eleito;
+    }
+
     public void somaVotos(int qtdVotos) {
         this.votos += qtdVotos;
         this.partido.somaVotosNominais(qtdVotos);

@@ -1,20 +1,21 @@
-
 import java.io.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class SistemaEleitoral {
     private Map<Integer, Candidato> candidatos = new HashMap<>();
     private Map<Integer, Partido> partidos = new HashMap<>();
+
     private static int codCargo = 13;
     private final int codMunicipio;
     private int qtdEleitos;
+    
     private List<Candidato> eleitos = new LinkedList<>();
     private List<Candidato> candidatosMaisVotados;
     private List<Partido> partidosMaisVotados;
@@ -59,9 +60,7 @@ public class SistemaEleitoral {
 
             if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo) {
                 this.candidatos.put(numeroCandidato, new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero));
-                if (eleito == 2 || eleito == 3) {
-                    this.qtdEleitos++;
-                }
+                if (eleito == 2 || eleito == 3) { this.qtdEleitos++; }
             }
 
             linha = br.readLine();
@@ -123,5 +122,27 @@ public class SistemaEleitoral {
             System.out.println(entry.getValue());
         }
          */
+    }
+
+    List<Partido> ordenaPartidos() {
+        List<Partido> lista = new LinkedList<>(this.partidos.values()); 
+        Collections.sort(lista, new ComparaPartidos());
+
+        return lista;
+    }
+
+
+    List<Partido> ordenaPartidosMaisVotados() {
+        List<Partido> lista = this.partidosMaisVotados;
+        Collections.sort(lista, new ComparaPartidos());
+
+        return lista;
+    }
+
+    List<Candidato> ordenaCandidatos() {
+        List<Candidato> lista = new LinkedList<>(this.candidatos.values());
+        Collections.sort(lista, new ComparaCandidatos());
+
+        return lista;
     }
 }   
