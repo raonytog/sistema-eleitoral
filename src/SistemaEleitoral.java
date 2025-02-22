@@ -14,6 +14,7 @@ public class SistemaEleitoral {
     private Map<Integer, Partido> partidos = new HashMap<>();
     private static int codCargo = 13;
     private final int codMunicipio;
+    private int qtdEleitos;
     private List<Candidato> eleitos = new LinkedList<>();
     private List<Candidato> candidatosMaisVotados;
     private List<Partido> partidosMaisVotados;
@@ -56,8 +57,12 @@ public class SistemaEleitoral {
             if (this.partidos.get(numeroPartido) == null) 
                 this.partidos.put(numeroPartido, new Partido(numeroPartido, siglaPartido, numeroFederacao));  
 
-            if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo)
+            if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo) {
                 this.candidatos.put(numeroCandidato, new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero));
+                if (eleito == 1) {
+                    this.qtdEleitos++;
+                }
+            }
 
             linha = br.readLine();
             sc.close();

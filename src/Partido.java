@@ -1,9 +1,12 @@
+import java.util.LinkedList;
+import java.util.List;
+
 public class Partido {
     private int     numero;
     private String  sigla;
     private int     federacao;
 
-    /** Candidados, como armazenar? */
+    private List<Candidato> candidatos = new LinkedList<>();
 
     private int totalEleitos;
     private int votosNominais;
@@ -15,6 +18,10 @@ public class Partido {
         this.numero = numero;
         this.sigla = sigla;
         this.federacao = federacao;
+    }
+
+    public void addCandidato(Candidato candidato) {
+        this.candidatos.add(candidato);
     }
 
     public void somaVotosLegenda(int qtdVotos) {
@@ -29,6 +36,6 @@ public class Partido {
     public String toString() {
         int totais = votosLegenda + votosNominais;
 
-        return sigla + " " + numero + " TOTAIS:" + totais + " LEGENDA: " + votosLegenda + " NOMINAIS: " + votosNominais;
+        return sigla + " " + numero + " TOTAIS:" + totais + " LEGENDA: " + votosLegenda + " NOMINAIS: " + votosNominais + " " + this.candidatos;
     }
 }

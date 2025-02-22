@@ -16,6 +16,7 @@ public class Candidato {
         this.nome = nome;
         this.numero = numero;
         this.partido = partido;
+        partido.addCandidato(this);
         this.nascimento = nascimento;
         this.eleito = eleito;
         this.genero = genero;
