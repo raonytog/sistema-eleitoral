@@ -27,6 +27,8 @@ public class Partido {
 
     @Override
     public String toString() {
-        return sigla + " " + numero + " " + federacao;
+        int totais = votosLegenda + votosNominais;
+
+        return sigla + " " + numero + " TOTAIS:" + totais + " LEGENDA: " + votosLegenda + " NOMINAIS: " + votosNominais;
     }
 }

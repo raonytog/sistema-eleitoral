@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class SistemaEleitoral {
@@ -81,26 +82,37 @@ public class SistemaEleitoral {
                 String aux = sc.next();
                 
                 switch (i) {
-                    case 13 -> codUE = Integer.parseInt(aux.substring(1, aux.length() - 1)); //MUDOU DO LAB PRA CASA
+                    case 11 -> codUE = Integer.parseInt(aux.substring(1, aux.length() - 1)); //MUDOU DO LAB PRA CASA
                     case 17 -> codCargo = Integer.parseInt(aux);
                     case 19 -> numero = Integer.parseInt(aux);
                     case 21 -> qtdVotos = Integer.parseInt(aux);
                 }
 
-                if(i == 13 && codUE != this.codMunicipio) break;
-                if(i == 17 && codCargo != SistemaEleitoral.codCargo) break;
-
-                
-                Candidato candidato = this.candidatos.get(numero);
-                candidato.somaVotos(qtdVotos);
-
-                Partido partido = this.partidos.get(numero);
-
+                if (i == 13 && codUE != this.codMunicipio) continue;
+                if (i == 17 && codCargo != SistemaEleitoral.codCargo) continue;
+            }
+            
+            if (codUE == this.codMunicipio && codCargo == SistemaEleitoral.codCargo) {
+                if (numero <=  99) {
+                    Partido partido = this.partidos.get(numero);
+                    if (partido != null) 
+                        partido.somaVotosLegenda(qtdVotos);
+                }
+                else {
+                    Candidato candidato = this.candidatos.get(numero);
+                    if (candidato != null) 
+                        candidato.somaVotos(qtdVotos);
+                }
             }
 
             linha = br.readLine();
             sc.close();
         }
         br.close();
+
+        for (Entry<Integer, Partido> entry : this.partidos.entrySet())
+        {
+            System.out.println(entry.getValue());
+        }
     }
 }   
