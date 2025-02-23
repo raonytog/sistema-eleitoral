@@ -68,7 +68,7 @@ public class SistemaEleitoral {
                 this.partidos.put(numeroPartido, new Partido(numeroPartido, siglaPartido, numeroFederacao));  
 
             if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo && eleito > -1) {
-                Candidato candidato = new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero);
+                Candidato candidato = new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, this.diaVotacao, eleito, genero);
                 this.candidatos.put(numeroCandidato, candidato);
 
                 if (eleito == 2 || eleito == 3) { 
@@ -266,7 +266,7 @@ public class SistemaEleitoral {
 
         int idade = 0, menorQue30 = 0, menorQue40 = 0, menorQue50 = 0, menorQue60 = 0, demais = 0;
         for (Candidato c: this.eleitos) {
-            idade = c.getIdade(this.diaVotacao);
+            idade = c.getIdade();
             if (idade < 30) menorQue30++;
             else if (idade < 40) menorQue40++;
             else if (idade < 50) menorQue50++;

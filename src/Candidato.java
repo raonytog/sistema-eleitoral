@@ -11,15 +11,17 @@ public class Candidato {
     private int votos;
 
     private LocalDate nascimento;
+    private int idade;
 
     private int genero;
     private int eleito;
     
-    public Candidato(String nome, int numero, Partido partido, LocalDate nascimento, int eleito, int genero) {
+    public Candidato(String nome, int numero, Partido partido, LocalDate nascimento, LocalDate diaAtual, int eleito, int genero) {
         this.nome = nome;
         this.numero = numero;
         this.partido = partido;
         this.nascimento = nascimento;
+        this.idade = Period.between(nascimento, diaAtual).getYears();
         this.eleito = eleito;
         this.genero = genero;
 
@@ -63,8 +65,8 @@ public class Candidato {
         this.partido.somaVotosNominais(qtdVotos);
     }
 
-    public int getIdade(LocalDate diaAtual) {
-        return (Period.between(this.nascimento, diaAtual)).getYears();
+    public int getIdade() {
+        return this.idade;
     }
 
     @Override
