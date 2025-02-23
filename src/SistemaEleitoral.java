@@ -29,7 +29,7 @@ public class SistemaEleitoral {
     public SistemaEleitoral(int codMunicipio, String pathCandidatos, String diaVotacao) throws Exception {
         
         InputStream is = new FileInputStream(pathCandidatos);
-        InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+        InputStreamReader isr = new InputStreamReader(is, "ISO-8859-1");
         BufferedReader br = new BufferedReader(isr);
         String linha = br.readLine();
         linha = br.readLine();
