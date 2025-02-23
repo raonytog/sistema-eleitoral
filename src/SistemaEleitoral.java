@@ -51,7 +51,7 @@ public class SistemaEleitoral {
                 String aux = sc.next();
                 
                 switch (i) {
-                    case 11 -> codUE = Integer.parseInt(aux.substring(1, aux.length() - 1)); //MUDOU DO LAB PRA CASA
+                    case 11 -> codUE = Integer.parseInt(aux.substring(1, aux.length() - 1));
                     case 13 -> codCargo = Integer.parseInt(aux);
                     case 16 -> numeroCandidato = Integer.parseInt(aux);
                     case 18 -> nomeCandidato = aux.substring(1, aux.length() - 1);
@@ -68,7 +68,7 @@ public class SistemaEleitoral {
                 this.partidos.put(numeroPartido, new Partido(numeroPartido, siglaPartido, numeroFederacao));  
 
             if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo && eleito > -1) {
-                Candidato candidato = new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, this.diaVotacao, eleito, genero);
+                Candidato candidato = new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero);
                 this.candidatos.put(numeroCandidato, candidato);
 
                 if (eleito == 2 || eleito == 3) { 
@@ -100,7 +100,7 @@ public class SistemaEleitoral {
                 String aux = sc.next();
                 
                 switch (i) {
-                    case 11 -> codUE = Integer.parseInt(aux.substring(1, aux.length() - 1)); //MUDOU DO LAB PRA CASA
+                    case 11 -> codUE = Integer.parseInt(aux.substring(1, aux.length() - 1));
                     case 17 -> codCargo = Integer.parseInt(aux);
                     case 19 -> numero = Integer.parseInt(aux);
                     case 21 -> qtdVotos = Integer.parseInt(aux);
@@ -145,9 +145,9 @@ public class SistemaEleitoral {
         return lista;
     }
 
-    public List<Partido> ordenaPartidosPorMaisVotados() {
+    public List<Partido> ordenaPartidosPorCandidato() {
         List<Partido> lista = new LinkedList<>(this.partidos.values());
-        Collections.sort(lista, new ComparaPartidos());
+        Collections.sort(lista, new ComparaPartidosPorCandidato());
 
         return lista;
     }
@@ -242,13 +242,10 @@ public class SistemaEleitoral {
         System.out.println("Primeiro e último colocados de cada partido:");
 
         NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
-        List<Partido> maisVotados = this.ordenaPartidos();
+        List<Partido> maisVotados = this.ordenaPartidosPorCandidato();
         int i = 1;
         for (Partido partido : maisVotados) {
-            if (partido.getMaisVotado() == null || partido.getMenosVotado() == null || partido.getVotosTotais() == 0) {
-                i++;
-                continue;
-            }
+            if (partido.getMaisVotado() == null || partido.getMenosVotado() == null || partido.getVotosTotais() == 0) continue;
 
             String out = i + " - " + partido + ", ";
             out += partido.getMaisVotado().getNome() + " (" + partido.getMaisVotado().getNumero() + ", ";
@@ -266,7 +263,7 @@ public class SistemaEleitoral {
 
         int idade = 0, menorQue30 = 0, menorQue40 = 0, menorQue50 = 0, menorQue60 = 0, demais = 0;
         for (Candidato c: this.eleitos) {
-            idade = c.getIdade();
+            idade = c.getIdade(this.diaVotacao);
             if (idade < 30) menorQue30++;
             else if (idade < 40) menorQue40++;
             else if (idade < 50) menorQue50++;

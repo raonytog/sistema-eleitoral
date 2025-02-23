@@ -1,4 +1,5 @@
 
+import java.time.Period;
 import java.util.Comparator;
 
 public class ComparaCandidatos implements Comparator<Candidato> {
@@ -7,6 +8,6 @@ public class ComparaCandidatos implements Comparator<Candidato> {
     public int compare(Candidato a, Candidato b) {
         int c = a.getVotos(), d = b.getVotos();
         if (d - c != 0) return d - c;
-        return b.getIdade() - a.getIdade();
+        return Period.between(b.getNascimento(), a.getNascimento()).getDays();
     }
 }

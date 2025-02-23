@@ -1,3 +1,4 @@
+import java.time.Period;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -73,11 +74,17 @@ public class Partido {
         if (this.maisVotado == null && this.menosVotado == null) {
             setMaisVotado(candidato);
             setMenosVotado(candidato);
-            return;
         }
 
         if (candidato.getVotos() > this.getMaisVotado().getVotos()) this.setMaisVotado(candidato);
+        else if (candidato.getVotos() == this.getMaisVotado().getVotos()) {
+            if (Period.between(candidato.getNascimento(), this.getMaisVotado().getNascimento()).getDays() > 0) this.setMaisVotado(candidato);
+        }
+
         if (candidato.getVotos() < this.getMenosVotado().getVotos()) this.setMenosVotado(candidato);
+        else if (candidato.getVotos() == this.getMenosVotado().getVotos()) {
+            if (Period.between(candidato.getNascimento(), this.getMenosVotado().getNascimento()).getDays() > 0) this.setMenosVotado(candidato);
+        }
     }
 
     public void somaVotosLegenda(int qtdVotos) {
