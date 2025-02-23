@@ -1,4 +1,6 @@
+import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.util.Locale;
 
 public class Candidato {
     private String nome;
@@ -16,10 +18,11 @@ public class Candidato {
         this.nome = nome;
         this.numero = numero;
         this.partido = partido;
-        partido.addCandidato(this);
         this.nascimento = nascimento;
         this.eleito = eleito;
         this.genero = genero;
+
+        if (this.eleito == 2 || this.eleito == 3) this.partido.incrementaEleitos();; 
     }
 
     public String getNome() {
@@ -32,6 +35,10 @@ public class Candidato {
 
     public Partido getPartido() {
         return partido;
+    }  
+
+    public int getNumeroPartido() {
+        return this.partido.getNumero();
     }
 
     public int getVotos() {
@@ -57,7 +64,10 @@ public class Candidato {
 
     @Override
     public String toString() {
-        return nome + " " + numero + " VOTOS: " + votos;
+        NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+
+        if (this.partido.getFederacao() > 0) return "*" + nome + " (" + this.partido.getSigla() + ", " + brFormat.format(votos) + " votos)";
+        return nome + " (" + this.partido.getSigla() + ", " + brFormat.format(votos) + " votos)";
     }
 }
 

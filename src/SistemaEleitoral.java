@@ -1,11 +1,15 @@
 import java.io.*;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Scanner;
 
 public class SistemaEleitoral {
@@ -15,10 +19,10 @@ public class SistemaEleitoral {
     private static int codCargo = 13;
     private final int codMunicipio;
     private int qtdEleitos;
+    private int votosLegenda;
+    private int votosNominais;
     
     private List<Candidato> eleitos = new LinkedList<>();
-    private List<Candidato> candidatosMaisVotados;
-    private List<Partido> partidosMaisVotados;
 
     public SistemaEleitoral(int codMunicipio, String pathCandidatos) throws Exception {
         InputStream is = new FileInputStream(pathCandidatos);
@@ -58,17 +62,20 @@ public class SistemaEleitoral {
             if (this.partidos.get(numeroPartido) == null) 
                 this.partidos.put(numeroPartido, new Partido(numeroPartido, siglaPartido, numeroFederacao));  
 
-            if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo) {
-                this.candidatos.put(numeroCandidato, new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero));
-                if (eleito == 2 || eleito == 3) { this.qtdEleitos++; }
-            }
+            if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo && eleito > -1) {
+                Candidato candidato = new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero);
+                this.candidatos.put(numeroCandidato, candidato);
 
+                if (eleito == 2 || eleito == 3) { 
+                    this.qtdEleitos++; 
+                    this.eleitos.add(candidato);
+                }
+            }
+            
             linha = br.readLine();
             sc.close();
         }
         br.close();
-
-        System.out.println(qtdEleitos);
     }
 
     public void contabilizaVotos(String pathVotacao) throws Exception {
@@ -101,13 +108,17 @@ public class SistemaEleitoral {
             if (codUE == this.codMunicipio && codCargo == SistemaEleitoral.codCargo) {
                 if (numero <=  99) {
                     Partido partido = this.partidos.get(numero);
-                    if (partido != null) 
+                    if (partido != null) { 
                         partido.somaVotosLegenda(qtdVotos);
+                        this.votosLegenda++;
+                    }
                 }
                 else {
                     Candidato candidato = this.candidatos.get(numero);
-                    if (candidato != null) 
+                    if (candidato != null) {
                         candidato.somaVotos(qtdVotos);
+                        this.votosNominais++;
+                    }
                 }
             }
 
@@ -116,33 +127,132 @@ public class SistemaEleitoral {
         }
         br.close();
 
-        /*
-         * for (Entry<Integer, Partido> entry : this.partidos.entrySet())
-        {
-            System.out.println(entry.getValue());
-        }
-         */
+        for (Entry<Integer, Candidato> c : this.candidatos.entrySet())
+            this.partidos.get(c.getValue().getNumeroPartido()).addCandidato(c.getValue());
+        
+        Collections.sort(this.eleitos, new ComparaCandidatos());
     }
 
-    List<Partido> ordenaPartidos() {
+    public List<Partido> ordenaPartidos() {
         List<Partido> lista = new LinkedList<>(this.partidos.values()); 
         Collections.sort(lista, new ComparaPartidos());
 
         return lista;
     }
 
-
-    List<Partido> ordenaPartidosMaisVotados() {
-        List<Partido> lista = this.partidosMaisVotados;
+    public List<Partido> ordenaPartidosPorMaisVotados() {
+        List<Partido> lista = new LinkedList<>(this.partidos.values());
         Collections.sort(lista, new ComparaPartidos());
 
         return lista;
     }
 
-    List<Candidato> ordenaCandidatos() {
+    public List<Candidato> ordenaCandidatos() {
         List<Candidato> lista = new LinkedList<>(this.candidatos.values());
         Collections.sort(lista, new ComparaCandidatos());
 
         return lista;
+    }
+
+    public void imprimeNumeroDeVagas() {
+        System.out.println("Número de vagas: " + this.qtdEleitos);
+    }
+
+    public void imprimeEleitos() {
+        System.out.println("Vereadores eleitos:");
+
+        int i = 1;
+        for (Candidato candidato : this.eleitos) {
+            if (i > this.qtdEleitos) break;
+            System.out.print(i + " - ");
+            System.out.println(candidato);
+            i++;
+        }
+    }
+
+    public void imprimeMaisVotados() {
+        System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
+
+        List<Candidato> maisVotados = this.ordenaCandidatos();
+        int i = 1;
+        for (Candidato candidato : maisVotados) {
+            if (i > this.qtdEleitos) break;
+            System.out.print(i + " - ");
+            System.out.println(candidato);
+            i++;
+        }
+    }
+
+    public void imprimeSeriamEleitos() {
+        System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:");
+
+        List<Candidato> maisVotados = this.ordenaCandidatos();
+        int i = 1;
+        for (Candidato candidato : maisVotados) {
+            if (i > this.qtdEleitos) break;
+
+            if (candidato.getEleito() != 2 && candidato.getEleito() != 3) {
+                System.out.print(i + " - ");
+                System.out.println(candidato);
+            }
+            i++;
+        }
+    }
+
+    public void imprimeEleitosBeneficiados() {
+        System.out.println("Eleitos, que se beneficiaram do sistema proporcional:");
+
+        List<Candidato> maisVotados = this.ordenaCandidatos();
+        int i = 1;
+        for (Candidato candidato : maisVotados) {
+            if (i > this.qtdEleitos && (candidato.getEleito() == 2 || candidato.getEleito() == 3)) {
+                System.out.print(i + " - ");
+                System.out.println(candidato);
+            }
+            i++;
+        }
+    }
+
+    public void imprimePartidosMaisVotados() {
+        System.out.println("Votação dos partidos e número de candidatos eleitos:");
+
+        NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        List<Partido> maisVotados = this.ordenaPartidos();
+        int i = 1;
+        for (Partido partido : maisVotados) {
+            String out = i + " - " + partido + ", " + brFormat.format(partido.getVotosTotais()) + " votos ";
+            out += "(" + brFormat.format(partido.getVotosNominais()) + " nominais e "; 
+            out += brFormat.format(partido.getVotosLegenda()) + " de legenda), ";
+            out += partido.getTotalEleitos();
+
+            if (partido.getTotalEleitos() > 0) out += " candidatos eleitos";
+            else out += " candidato eleito";
+
+            System.out.println(out);
+            i++;
+        }
+    }
+
+    public void imprimeExtremosDosPartidos() {
+        System.out.println("Primeiro e último colocados de cada partido:");
+
+        NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        List<Partido> maisVotados = this.ordenaPartidos();
+        int i = 1;
+        for (Partido partido : maisVotados) {
+            if (partido.getMaisVotado() == null || partido.getMenosVotado() == null || partido.getVotosTotais() == 0) {
+                i++;
+                continue;
+            }
+
+            String out = i + " - " + partido + ", ";
+            out += partido.getMaisVotado().getNome() + " (" + partido.getMaisVotado().getNumero() + ", ";
+            out += brFormat.format(partido.getMaisVotado().getVotos()) + " votos) / ";
+            out += partido.getMenosVotado().getNome() + " (" + partido.getMenosVotado().getNumero() + ", ";
+            out += brFormat.format(partido.getMenosVotado().getVotos()) + " votos)";
+
+            System.out.println(out);
+            i++;
+        }
     }
 }   

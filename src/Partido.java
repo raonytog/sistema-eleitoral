@@ -49,6 +49,10 @@ public class Partido {
         return votosLegenda;
     }
 
+    public int getVotosTotais() {
+        return votosLegenda + votosNominais;
+    }
+
     public Candidato getMaisVotado() {
         return maisVotado;
     }
@@ -73,8 +77,7 @@ public class Partido {
         }
 
         if (candidato.getVotos() > this.getMaisVotado().getVotos()) this.setMaisVotado(candidato);
-        else if (candidato.getVotos() < this.getMaisVotado().getVotos()) this.setMenosVotado(candidato);
-        // this.candidatos.add(candidato);
+        if (candidato.getVotos() < this.getMenosVotado().getVotos()) this.setMenosVotado(candidato);
     }
 
     public void somaVotosLegenda(int qtdVotos) {
@@ -85,10 +88,12 @@ public class Partido {
         this.votosNominais += qtdVotos;
     }
 
+    public void incrementaEleitos() {
+        this.totalEleitos++;
+    }
+
     @Override
     public String toString() {
-        int totais = votosLegenda + votosNominais;
-
-        return sigla + " " + numero + " TOTAIS:" + totais + " LEGENDA: " + votosLegenda + " NOMINAIS: " + votosNominais + " " + this.candidatos;
+        return sigla + " - " + numero;
     }
 }
