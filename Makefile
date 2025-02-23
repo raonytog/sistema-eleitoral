@@ -9,9 +9,8 @@ runL:
 
 jarL:
 	make compL
-	@ jar cfe vereadores.jar App -C bin .
-	@ java -jar vereadores.jar
-
+	@ jar -cfvm vereadores.jar -C bin/ ./src
+	# @ java -jar vereadores.jar
 
 # Windows
 compW:

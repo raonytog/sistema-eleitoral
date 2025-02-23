@@ -1,5 +1,6 @@
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Locale;
 
 public class Candidato {
@@ -60,6 +61,10 @@ public class Candidato {
     public void somaVotos(int qtdVotos) {
         this.votos += qtdVotos;
         this.partido.somaVotosNominais(qtdVotos);
+    }
+
+    public int getIdade(LocalDate diaAtual) {
+        return (Period.between(this.nascimento, diaAtual)).getYears();
     }
 
     @Override

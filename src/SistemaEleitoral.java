@@ -2,7 +2,6 @@ import java.io.*;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -16,15 +15,19 @@ public class SistemaEleitoral {
     private Map<Integer, Candidato> candidatos = new HashMap<>();
     private Map<Integer, Partido> partidos = new HashMap<>();
 
+    private LocalDate diaVotacao;
+
     private static int codCargo = 13;
     private final int codMunicipio;
+
     private int qtdEleitos;
     private int votosLegenda;
     private int votosNominais;
     
     private List<Candidato> eleitos = new LinkedList<>();
 
-    public SistemaEleitoral(int codMunicipio, String pathCandidatos) throws Exception {
+    public SistemaEleitoral(int codMunicipio, String pathCandidatos, String diaVotacao) throws Exception {
+        
         InputStream is = new FileInputStream(pathCandidatos);
         InputStreamReader isr = new InputStreamReader(is, "UTF-8");
         BufferedReader br = new BufferedReader(isr);
@@ -32,6 +35,10 @@ public class SistemaEleitoral {
         linha = br.readLine();
         this.codMunicipio = codMunicipio;
         
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate nascimento = LocalDate.parse("2018-12-27");
+        this.diaVotacao = LocalDate.parse(diaVotacao, formatter);
+
         while (linha != null) {
             Scanner sc = new Scanner(linha).useDelimiter(";");
             int i;
@@ -39,8 +46,6 @@ public class SistemaEleitoral {
             String nomeCandidato = "", siglaPartido = "";
             int numeroCandidato = 0, codUE = 0, codCargo = 0, genero = 0, 
             eleito = 0, numeroPartido = 0, numeroFederacao = 0;
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            LocalDate nascimento = LocalDate.parse("2018-12-27");
 
             for (i = 0; i < 50; i++) {
                 String aux = sc.next();
@@ -104,20 +109,20 @@ public class SistemaEleitoral {
                 if (i == 13 && codUE != this.codMunicipio) continue;
                 if (i == 17 && codCargo != SistemaEleitoral.codCargo) continue;
             }
-            
+
             if (codUE == this.codMunicipio && codCargo == SistemaEleitoral.codCargo) {
                 if (numero <=  99) {
                     Partido partido = this.partidos.get(numero);
                     if (partido != null) { 
                         partido.somaVotosLegenda(qtdVotos);
-                        this.votosLegenda++;
+                        this.votosLegenda += qtdVotos;
                     }
-                }
-                else {
+
+                } else {
                     Candidato candidato = this.candidatos.get(numero);
                     if (candidato != null) {
                         candidato.somaVotos(qtdVotos);
-                        this.votosNominais++;
+                        this.votosNominais += qtdVotos;
                     }
                 }
             }
@@ -254,5 +259,60 @@ public class SistemaEleitoral {
             System.out.println(out);
             i++;
         }
+    }
+
+    public void imprimeEleitosPorIdade() {
+        int total = this.eleitos.size();
+
+        int idade = 0, menorQue30 = 0, menorQue40 = 0, menorQue50 = 0, menorQue60 = 0, demais = 0;
+        for (Candidato c: this.eleitos) {
+            idade = c.getIdade(this.diaVotacao);
+            if (idade < 30) menorQue30++;
+            else if (idade < 40) menorQue40++;
+            else if (idade < 50) menorQue50++;
+            else if (idade < 60) menorQue60++;
+            else demais++;
+        }
+
+        NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        brFormat.setMaximumFractionDigits(2);
+        brFormat.setMinimumFractionDigits(2);
+
+        System.out.println("Eleitos, por faixa etária (na data da eleição):");
+        System.out.println("    <= Idade < 30: " + menorQue30 + " (" + brFormat.format(100.0 * menorQue30 / total) + "%)");
+        System.out.println(" 30 <= Idade < 40: " + menorQue40 + " (" + brFormat.format(100.0 * menorQue40 / total) + "%)");
+        System.out.println(" 40 <= Idade < 50: " + menorQue50 + " (" + brFormat.format(100.0 * menorQue50 / total) + "%)");
+        System.out.println(" 50 <= Idade < 60: " + menorQue60 + " (" + brFormat.format(100.0 * menorQue60 / total) + "%)");
+        System.out.println(" 60 <= Idade     : " + demais + " (" + brFormat.format(100.0 * demais / total) + "%)");
+    }
+
+    public void imprimeEleitosPorGenero() {
+        int total = this.eleitos.size();
+        int mas = 0, fem = 0;
+        for (Candidato c: this.eleitos) {
+            if (c.getGenero() == 2) mas++;
+            else fem++;
+        }
+
+        NumberFormat brFormat = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        brFormat.setMaximumFractionDigits(2);
+        brFormat.setMinimumFractionDigits(2);
+
+        System.out.println("Eleitos, por gênero:");
+        System.out.println("Feminino:  " + fem + " (" + brFormat.format(100.0 * fem / total) + "%)");
+        System.out.println("Masculino: " + mas + " (" + brFormat.format(100.0 * mas / total) + "%)");
+    }
+    
+    public void imprimePorcentagensDeVoto() {
+        int total = this.votosNominais + this.votosLegenda;
+
+        NumberFormat votos = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        NumberFormat porcentagem = NumberFormat.getInstance(Locale.forLanguageTag("pt-BR"));
+        porcentagem.setMaximumFractionDigits(2);
+        porcentagem.setMinimumFractionDigits(2);
+
+        System.out.println("Total de votos válidos:    " + votos.format(total));
+        System.out.println("Total de votos nominais:   " + votos.format(this.votosNominais) + " (" + porcentagem.format(100.0 * this.votosNominais / total) + "%)");
+        System.out.println("Total de votos de legenda: " + votos.format(this.votosLegenda) + " (" + porcentagem.format(100.0 * this.votosLegenda / total) + "%)");
     }
 }   

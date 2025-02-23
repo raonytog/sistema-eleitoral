@@ -1,6 +1,7 @@
 public class App {
     public static void main(String[] args) throws Exception {
-        SistemaEleitoral sistema = new SistemaEleitoral(1392, "testes/AC1392/in/candidatos.csv");
+        String diaVotacao = "06/10/2024";
+        SistemaEleitoral sistema = new SistemaEleitoral(1392, "testes/AC1392/in/candidatos.csv", diaVotacao);
         sistema.contabilizaVotos("testes/AC1392/in/votacao.csv");
 
         sistema.imprimeNumeroDeVagas();
@@ -24,16 +25,13 @@ public class App {
         sistema.imprimeExtremosDosPartidos();
         System.out.println();
 
-        //sistema.imprimeEleitosPorIdade();
+        sistema.imprimeEleitosPorIdade();
         System.out.println();
         
-        //sistema.imprimeEleitosPorGenero();
+        sistema.imprimeEleitosPorGenero();
         System.out.println();
 
-        //sistema.imprimeExtremosPartidos();
-        System.out.println();
-
-        //sistema.imprimePorcentagensDeVoto();
+        sistema.imprimePorcentagensDeVoto();
         System.out.println();
     }
 }
