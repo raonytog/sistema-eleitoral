@@ -61,7 +61,7 @@ public class SistemaEleitoral {
                     case 36 -> nascimento = LocalDate.parse(aux.substring(1, aux.length() - 1), formatter);
                     case 38 -> genero = Integer.parseInt(aux);
                     case 48 -> eleito = Integer.parseInt(aux);
-                }     
+                }
             }
 
             if (this.partidos.get(numeroPartido) == null) 
@@ -85,7 +85,7 @@ public class SistemaEleitoral {
 
     public void contabilizaVotos(String pathVotacao) throws Exception {
         InputStream is = new FileInputStream(pathVotacao);
-        InputStreamReader isr = new InputStreamReader(is, "UTF-8");
+        InputStreamReader isr = new InputStreamReader(is, "ISO-8859-1");
         BufferedReader br = new BufferedReader(isr);
         String linha = br.readLine();
         linha = br.readLine();
