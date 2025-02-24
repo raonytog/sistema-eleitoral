@@ -1,8 +1,12 @@
 public class Main {
-    public static void main(String[] args) throws Exception {
-        String diaVotacao = "06/10/2024";
-        SistemaEleitoral sistema = new SistemaEleitoral(1392, "testes/AC1392/in/candidatos.csv", diaVotacao);
-        sistema.contabilizaVotos("testes/AC1392/in/votacao.csv");
+    public static void main(String[] args) throws Exception {        
+        int codMunicipio = Integer.parseInt(args[0]);
+        String pathCandidatos = args[1];
+        String pathVotacao = args[2];
+        String diaVotacao = args[3];
+
+        SistemaEleitoral sistema = new SistemaEleitoral(codMunicipio, pathCandidatos, diaVotacao);
+        sistema.contabilizaVotos(pathVotacao);
 
         sistema.imprimeNumeroDeVagas();
         System.out.println();
