@@ -1,5 +1,5 @@
 public class Main {
-    public static void main(String[] args) throws Exception {        
+    public static void main(String[] args) throws Exception {
         int codMunicipio = Integer.parseInt(args[0]);
         String pathCandidatos = args[1];
         String pathVotacao = args[2];

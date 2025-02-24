@@ -5,7 +5,10 @@ public class ComparaPartidos implements Comparator<Partido>{
 
     @Override
     public int compare(Partido a, Partido b) {
-        return (b.getVotosNominais() + b.getVotosLegenda()) - (a.getVotosNominais() + a.getVotosLegenda());
+        int totalA = a.getVotosNominais() + a.getVotosLegenda(), 
+            totalB = b.getVotosNominais() + b.getVotosLegenda();
+
+        if (totalB - totalA != 0) return totalB - totalA;
+        return a.getNumero() - b.getNumero();
     }
-    
 }

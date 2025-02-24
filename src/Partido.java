@@ -83,7 +83,7 @@ public class Partido {
 
         if (candidato.getVotos() < this.getMenosVotado().getVotos()) this.setMenosVotado(candidato);
         else if (candidato.getVotos() == this.getMenosVotado().getVotos()) {
-            if (Period.between(candidato.getNascimento(), this.getMenosVotado().getNascimento()).getDays() > 0) this.setMenosVotado(candidato);
+            if (Period.between(candidato.getNascimento(), this.getMenosVotado().getNascimento()).getDays() < 0) this.setMenosVotado(candidato);
         }
     }
 

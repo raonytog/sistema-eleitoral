@@ -253,7 +253,7 @@ public class SistemaEleitoral {
         List<Partido> maisVotados = this.ordenaPartidosPorCandidato();
         int i = 1;
         for (Partido partido : maisVotados) {
-            if (partido.getMaisVotado() == null || partido.getMenosVotado() == null || partido.getVotosTotais() == 0) continue;
+            if (partido.getMaisVotado() == null || partido.getMenosVotado() == null || partido.getVotosNominais() == 0) continue;
 
             String out = i + " - " + partido + ", ";
             
