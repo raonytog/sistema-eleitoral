@@ -190,7 +190,7 @@ public class SistemaEleitoral {
 
     public void imprimeSeriamEleitos() {
         System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:");
-
+        System.out.println("(com sua posição no ranking de mais votados)");
         List<Candidato> maisVotados = this.ordenaCandidatos();
         int i = 1;
         for (Candidato candidato : maisVotados) {
@@ -206,6 +206,7 @@ public class SistemaEleitoral {
 
     public void imprimeEleitosBeneficiados() {
         System.out.println("Eleitos, que se beneficiaram do sistema proporcional:");
+        System.out.println("(com sua posição no ranking de mais votados)");
 
         List<Candidato> maisVotados = this.ordenaCandidatos();
         int i = 1;
@@ -225,12 +226,19 @@ public class SistemaEleitoral {
         List<Partido> maisVotados = this.ordenaPartidos();
         int i = 1;
         for (Partido partido : maisVotados) {
-            String out = i + " - " + partido + ", " + brFormat.format(partido.getVotosTotais()) + " votos ";
-            out += "(" + brFormat.format(partido.getVotosNominais()) + " nominais e "; 
+            String out = "";
+            int v = partido.getVotosTotais();
+            if (v > 1) out = i + " - " + partido + ", " + brFormat.format(partido.getVotosTotais()) + " votos ";
+            else out = i + " - " + partido + ", " + brFormat.format(partido.getVotosTotais()) + " voto ";
+
+            v = partido.getVotosNominais();
+            if (v > 1) out += "(" + brFormat.format(partido.getVotosNominais()) + " nominais e "; 
+            else out += "(" + brFormat.format(partido.getVotosNominais()) + " nominal e "; 
+
             out += brFormat.format(partido.getVotosLegenda()) + " de legenda), ";
             out += partido.getTotalEleitos();
 
-            if (partido.getTotalEleitos() > 0) out += " candidatos eleitos";
+            if (partido.getTotalEleitos() > 1) out += " candidatos eleitos";
             else out += " candidato eleito";
 
             System.out.println(out);
@@ -248,10 +256,16 @@ public class SistemaEleitoral {
             if (partido.getMaisVotado() == null || partido.getMenosVotado() == null || partido.getVotosTotais() == 0) continue;
 
             String out = i + " - " + partido + ", ";
+            
             out += partido.getMaisVotado().getNome() + " (" + partido.getMaisVotado().getNumero() + ", ";
-            out += brFormat.format(partido.getMaisVotado().getVotos()) + " votos) / ";
+            int v = partido.getMaisVotado().getVotos();
+            if (v > 1) out += brFormat.format(partido.getMaisVotado().getVotos()) + " votos) / ";
+            else out += brFormat.format(partido.getMaisVotado().getVotos()) + " voto) / ";
+
             out += partido.getMenosVotado().getNome() + " (" + partido.getMenosVotado().getNumero() + ", ";
-            out += brFormat.format(partido.getMenosVotado().getVotos()) + " votos)";
+            v = partido.getMenosVotado().getVotos();
+            if (v > 1) out += brFormat.format(partido.getMenosVotado().getVotos()) + " votos)";
+            else out += brFormat.format(partido.getMenosVotado().getVotos()) + " voto)";
 
             System.out.println(out);
             i++;
@@ -276,7 +290,7 @@ public class SistemaEleitoral {
         brFormat.setMinimumFractionDigits(2);
 
         System.out.println("Eleitos, por faixa etária (na data da eleição):");
-        System.out.println("    <= Idade < 30: " + menorQue30 + " (" + brFormat.format(100.0 * menorQue30 / total) + "%)");
+        System.out.println("       Idade < 30: " + menorQue30 + " (" + brFormat.format(100.0 * menorQue30 / total) + "%)");
         System.out.println(" 30 <= Idade < 40: " + menorQue40 + " (" + brFormat.format(100.0 * menorQue40 / total) + "%)");
         System.out.println(" 40 <= Idade < 50: " + menorQue50 + " (" + brFormat.format(100.0 * menorQue50 / total) + "%)");
         System.out.println(" 50 <= Idade < 60: " + menorQue60 + " (" + brFormat.format(100.0 * menorQue60 / total) + "%)");

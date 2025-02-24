@@ -1,4 +1,4 @@
-public class App {
+public class Main {
     public static void main(String[] args) throws Exception {
         String diaVotacao = "06/10/2024";
         SistemaEleitoral sistema = new SistemaEleitoral(1392, "testes/AC1392/in/candidatos.csv", diaVotacao);

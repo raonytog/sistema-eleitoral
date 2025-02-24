@@ -1,16 +1,12 @@
 # Linux
-compL:
+comp:
 	@ javac src/*.java -d bin
 
-runL:
-	clear
-	make compL
-	@ java -cp bin App 
+run:
+	java -jar vereadores.jar
 
-jarL:
-	make compL
-	@ jar -cfvm vereadores.jar -C bin/ ./src
-	# @ java -jar vereadores.jar
+jar:
+	jar -c -f vereadores.jar -m MANIFEST.MF bin/*.class
 
 # Windows
 compW:
@@ -19,11 +15,11 @@ compW:
 runW:
 	clear
 	make compW
-	@ java -cp bin App
+	@ java -cp bin Main
 
 jarW:
 	make compW
-	@ jar cfe vereadores.jar App -C bin .
+	@ jar cfe vereadores.jar Main -C bin .
 	@ java -jar vereadores.jar
 
 # OBS: a execucao precisa dos argumentos seguintes
