@@ -21,10 +21,18 @@ public class Relatorios {
     }
 
 
+    /**
+     * Imprime o numero de vagas disponíveis para eleição, no caso dos vereadores
+     */
     public void imprimeNumeroDeVagas() {
         System.out.println("Número de vagas: " + this.getSistemaEleitoral().getQtdEleitos());
     }
 
+    /**
+     * Imprime os vereadores eleitos no formato:
+     * Caso faça parte de um partido de de federação, o mesmo será impresso com o "*" anterior ao nome
+     * <indice> - <nome> (<sigla>, <quantidade de votos> votos)
+     */
     public void imprimeVereadoresEleitos() {
         System.out.println("Vereadores eleitos:");
 
@@ -37,6 +45,10 @@ public class Relatorios {
         }
     }
 
+        /**
+         * Imprime os candidatos mais votados em ordem decrescente pelo número de vagas.
+         * Em caso de empate, o candidato mais novo entra
+         */
         public void imprimeCandidatosMaisVotados() {
         System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
 
@@ -50,10 +62,15 @@ public class Relatorios {
         }
     }
 
+    /**
+     * Impre os candidatos que seriam eleitos caso a votação fosse majoritária,
+     * juntamente de sua posição no rankin dos mais votados
+     */
     public void imprimeSeriamEleitos() {
         System.out.println("Teriam sido eleitos se a votação fosse majoritária, e não foram eleitos:");
         System.out.println("(com sua posição no ranking de mais votados)");
         List<Candidato> maisVotados = this.getSistemaEleitoral().ordenaCandidatos();
+
         int i = 1;
         for (Candidato candidato : maisVotados) {
             if (i > this.getSistemaEleitoral().getQtdEleitos()) break;
@@ -66,6 +83,9 @@ public class Relatorios {
         }
     }
 
+    /**
+     * 
+     */
     public void imprimeEleitosBeneficiados() {
         System.out.println("Eleitos, que se beneficiaram do sistema proporcional:");
         System.out.println("(com sua posição no ranking de mais votados)");
@@ -188,5 +208,4 @@ public class Relatorios {
         System.out.println("Total de votos nominais:   " + votos.format(this.getSistemaEleitoral().getVotosNominais()) + " (" + porcentagem.format(100.0 * this.getSistemaEleitoral().getVotosNominais() / total) + "%)");
         System.out.println("Total de votos de legenda: " + votos.format(this.getSistemaEleitoral().getVotosLegenda()) + " (" + porcentagem.format(100.0 * this.getSistemaEleitoral().getVotosLegenda() / total) + "%)");
     }
-
 }
