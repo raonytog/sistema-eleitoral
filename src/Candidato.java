@@ -49,7 +49,6 @@ public class Candidato {
     public LocalDate getNascimento() {
         return nascimento;
     }
-    
 
     public int getGenero() {
         return genero;
