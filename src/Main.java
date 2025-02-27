@@ -6,38 +6,38 @@ public class Main {
         String diaVotacao = args[3];
 
         SistemaEleitoral sistema = new SistemaEleitoral(codMunicipio, pathCandidatos, diaVotacao);
-        Relatorios relatorios = new Relatorios();
+        Relatorios relatorios = new Relatorios(sistema);
 
         sistema.contabilizaVotos(pathVotacao);
 
-        relatorios.imprimeNumeroDeVagas(sistema);
+        relatorios.imprimeNumeroDeVagas();
         System.out.println();
         
-        relatorios.imprimeVereadoresEleitos(sistema);
+        relatorios.imprimeVereadoresEleitos();
         System.out.println();
         
-        relatorios.imprimeCandidatosMaisVotados(sistema);
+        relatorios.imprimeCandidatosMaisVotados();
         System.out.println();
         
-        relatorios.imprimeSeriamEleitos(sistema);
+        relatorios.imprimeSeriamEleitos();
         System.out.println();
 
-        relatorios.imprimeEleitosBeneficiados(sistema);
+        relatorios.imprimeEleitosBeneficiados();
         System.out.println();
 
-        relatorios.imprimePartidosMaisVotados(sistema);
+        relatorios.imprimePartidosMaisVotados();
         System.out.println();
 
-        relatorios.imprimeExtremosDosPartidos(sistema);
+        relatorios.imprimeExtremosDosPartidos();
         System.out.println();
 
-        relatorios.imprimeEleitosPorIdade(sistema);
+        relatorios.imprimeEleitosPorIdade();
         System.out.println();
         
-        relatorios.imprimeEleitosPorGenero(sistema);
+        relatorios.imprimeEleitosPorGenero();
         System.out.println();
 
-        relatorios.imprimePorcentagensDeVoto(sistema);
+        relatorios.imprimePorcentagensDeVoto();
         System.out.println();
     }
 }
