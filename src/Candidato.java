@@ -120,6 +120,10 @@ public class Candidato {
         return Period.between(nascimento, diaAtual).getYears();
     }
 
+    /**
+     * Pre condição: Candidato existente
+     * @return Retorna se o candidato foi eleito por media ou por legenda
+     */
     public boolean  getCandidatoFoiEleito() {
         return this.getEleito() == Candidato.ELEITO_MEDIA || this.getEleito() == Candidato.ELEITO_QP;
     }

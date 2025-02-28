@@ -7,6 +7,7 @@ public class Relatorios {
 
     /**
      * @param sistema Inicializa o relatorio com o sistema eleitoral para manipulação dos dados
+     * @return Relatorio criado
      */
     public Relatorios(SistemaEleitoral sistema) {
         this.sistema = sistema;
@@ -43,11 +44,11 @@ public class Relatorios {
         }
     }
 
-        /**
-         * Imprime os candidatos mais votados em ordem decrescente pelo número de vagas.
-         * Em caso de empate, o candidato mais novo entra
-         */
-        public void imprimeCandidatosMaisVotados() {
+    /**
+    * Imprime os candidatos mais votados em ordem decrescente pelo número de vagas.
+    * Em caso de empate, o candidato mais novo entra
+    */
+    public void imprimeCandidatosMaisVotados() {
         System.out.println("Candidatos mais votados (em ordem decrescente de votação e respeitando número de vagas):");
 
         List<Candidato> maisVotados = this.getSistemaEleitoral().ordenaCandidatos();
@@ -61,7 +62,7 @@ public class Relatorios {
     }
 
     /**
-     * Impre os candidatos que seriam eleitos caso a votação fosse majoritária,
+     * Imprime os candidatos que seriam eleitos caso a votação fosse majoritária,
      * juntamente de sua posição no rankin dos mais votados
      */
     public void imprimeSeriamEleitos() {
@@ -82,7 +83,7 @@ public class Relatorios {
     }
 
     /**
-     * 
+     * Imprime os vereadores que foram eleitos por beneficio do sistema proporcional
      */
     public void imprimeEleitosBeneficiados() {
         System.out.println("Eleitos, que se beneficiaram do sistema proporcional:");
@@ -99,6 +100,10 @@ public class Relatorios {
         }
     }
 
+    /**
+     * Imprime os partidos mais votados seguindo o formato:
+     * <indice> - <silga> - <numero>, <votos totais> (<votos nominais> e <votos de legenda>), <total de eleitos> candidatos eleitos 
+     */
     public void imprimePartidosMaisVotados() {
         System.out.println("Votação dos partidos e número de candidatos eleitos:");
 
@@ -126,6 +131,10 @@ public class Relatorios {
         }
     }
 
+    /**
+     * Imprime os candidatos mais votados de cada partido no seguinte formato:
+     * <indice> - <sigla> - <nome do partido>, <nome do candidato> (<numero>, <votos>) / <nome do candidato> (<numero>, <votos>))
+     */
     public void imprimeExtremosDosPartidos() {
         System.out.println("Primeiro e último colocados de cada partido:");
 
@@ -152,6 +161,9 @@ public class Relatorios {
         }
     }
 
+    /**
+     * Imprime a distribuição de idades dos candidatos e suas participações em porcentagem
+     */
     public void imprimeEleitosPorIdade() {
         int total = this.getSistemaEleitoral().getCandidatosEleitos().size();
 
@@ -177,6 +189,9 @@ public class Relatorios {
         System.out.println(" 60 <= Idade     : " + demais + " (" + brFormat.format(100.0 * demais / total) + "%)");
     }
 
+    /**
+     * Imprime a porcentagem de participação masculina e feminina na eleição
+     */
     public void imprimeEleitosPorGenero() {
         int total = this.getSistemaEleitoral().getCandidatosEleitos().size();
         int mas = 0, fem = 0;
@@ -194,6 +209,9 @@ public class Relatorios {
         System.out.println("Masculino: " + mas + " (" + brFormat.format(100.0 * mas / total) + "%)");
     }
 
+    /**
+     * Imprime a quantidade e porcentagem de cada tipo de voto 
+     */
     public void imprimePorcentagensDeVoto() {
         int total = this.getSistemaEleitoral().getVotosNominais() + this.getSistemaEleitoral().getVotosLegenda();
 

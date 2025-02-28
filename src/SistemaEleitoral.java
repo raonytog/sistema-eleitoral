@@ -7,9 +7,9 @@ import java.util.Map.Entry;
 
 public class SistemaEleitoral {
     private Map<Integer, Candidato> candidatos = new HashMap<>();
-    private List<Candidato> eleitos = new LinkedList<>();
-
     private Map<Integer, Partido> partidos = new HashMap<>();
+    
+    private List<Candidato> eleitos = new LinkedList<>();
     private LocalDate diaVotacao;
 
     private int qtdEleitos;
@@ -22,7 +22,7 @@ public class SistemaEleitoral {
 
     /**
      * Inicializa o sistema eleitoral, preenchendo seu conteudo com seus candidatos, partidos e
-     * outras informações pertinentes, com oo numero de votos para cada tipo de voto, além de
+     * outras informações pertinentes, com o numero de votos para cada tipo de voto, além de
      * uma lista apenas com os candidatos a vereador eleitos
      * 
      * A leitura e validação dos atributos lidos necessitam que os valores inteiros 

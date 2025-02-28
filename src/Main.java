@@ -11,13 +11,8 @@ public class Main {
         if (args.length < 4) return;
 
         try {
-            int codMunicipio = Integer.parseInt(args[0]);
-            String pathCandidatos = args[1];
-            String pathVotacao = args[2];
-            String diaVotacao = args[3];
-
-            SistemaEleitoral sistema = new SistemaEleitoral(codMunicipio, pathCandidatos, diaVotacao);
-            sistema.contabilizaVotos(pathVotacao);
+            SistemaEleitoral sistema = new SistemaEleitoral(Integer.parseInt(args[0]), args[1], args[3]);
+            sistema.contabilizaVotos(args[2]);
 
             /** Gera os relatorios */
             Relatorios relatorios = new Relatorios(sistema);
