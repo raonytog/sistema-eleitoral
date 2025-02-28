@@ -1,1 +1,0 @@
-Trabalho de POO, com o objetivo de aplicar os conhecimentos de programação orientada a objeto em java para ler arquivos csv e criar relatórios sobre eleições brasileiras
