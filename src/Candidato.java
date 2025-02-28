@@ -14,6 +14,9 @@ public class Candidato {
 
     private int genero;
     private int eleito;
+
+    private static final int ELEITO_QP = 2;
+    private static final int ELEITO_MEDIA = 3;
     
     /**
      * @param nome Nome do candidato (nao necessita de ser o nome completo)
@@ -115,6 +118,10 @@ public class Candidato {
      */
     public int getIdade(LocalDate diaAtual) {
         return Period.between(nascimento, diaAtual).getYears();
+    }
+
+    public boolean  getCandidatoFoiEleito() {
+        return this.getEleito() == Candidato.ELEITO_MEDIA || this.getEleito() == Candidato.ELEITO_QP;
     }
 
     @Override

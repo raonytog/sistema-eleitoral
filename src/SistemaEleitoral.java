@@ -1,28 +1,24 @@
 import java.io.*;
+import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Scanner;
 
 public class SistemaEleitoral {
     private Map<Integer, Candidato> candidatos = new HashMap<>();
+    private List<Candidato> eleitos = new LinkedList<>();
+
     private Map<Integer, Partido> partidos = new HashMap<>();
-
     private LocalDate diaVotacao;
-
-    private static int codCargo = 13;
-    private final int   codMunicipio;
 
     private int qtdEleitos;
     private int votosLegenda;
     private int votosNominais;
-    
-    private List<Candidato> eleitos = new LinkedList<>();
+
+    private final int codMunicipio;
+    private static final int CARGO_VEREADOR = 13;
+    private static final int ELEITO_NULO = -1;
 
     /**
      * Inicializa o sistema eleitoral, preenchendo seu conteudo com seus candidatos, partidos e
@@ -36,9 +32,10 @@ public class SistemaEleitoral {
      * @param codMunicipio Codigo do municipio em análise
      * @param pathCandidatos Caminho para o arquivo csv com os candidatos
      * @param diaVotacao Dia que aconteceu a apuração dos dados de votacao
-     * @throws IOException
+     * @throws IOException excessão envolvendo erros com o fluxo de entrada e saida
+     * @throws ParseException excessão envolvendo erro com transfromação de uma string para outro tipo primitivo
      */
-    public SistemaEleitoral(int codMunicipio, String pathCandidatos, String diaVotacao) throws IOException {
+    public SistemaEleitoral(int codMunicipio, String pathCandidatos, String diaVotacao) throws IOException, ParseException {
         InputStream is = new FileInputStream(pathCandidatos);
         InputStreamReader isr = new InputStreamReader(is, "ISO-8859-1");
         BufferedReader br = new BufferedReader(isr);
@@ -57,7 +54,7 @@ public class SistemaEleitoral {
 
             String nomeCandidato = "", siglaPartido = "";
             int numeroCandidato = 0, codUE = 0, codCargo = 0, genero = 0, 
-            eleito = 0, numeroPartido = 0, numeroFederacao = 0;
+                eleito = 0, numeroPartido = 0, numeroFederacao = 0;
 
             for (i = 0; i < 50; i++) {
                 String aux = sc.next();
@@ -96,11 +93,11 @@ public class SistemaEleitoral {
             }
 
             /** Caso seja o municipio em analise e vereador e o candidato continua na eleicao */
-            if (codUE == codMunicipio && codCargo == SistemaEleitoral.codCargo && eleito > -1) {
+            if (codUE == codMunicipio && codCargo == SistemaEleitoral.CARGO_VEREADOR && eleito > SistemaEleitoral.ELEITO_NULO) {
                 Candidato candidato = new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero);
                 this.candidatos.put(numeroCandidato, candidato);
 
-                if (eleito == 2 || eleito == 3) { 
+                if (candidato.getCandidatoFoiEleito()) { 
                     this.qtdEleitos++; 
                     this.eleitos.add(candidato);
                 }
@@ -121,9 +118,10 @@ public class SistemaEleitoral {
      * que será passado com aspas.
      * 
      * @param pathVotacao Caminho para o arquivo csv com as informações de votação
-     * @throws IOException
+     * @throws IOException excessão envolvendo erros com o fluxo de entrada e saida
+     * @throws ParseException excessão envolvendo erro com transfromação de uma string para outro tipo primitivo
      */
-    public void contabilizaVotos(String pathVotacao) throws IOException {
+    public void contabilizaVotos(String pathVotacao) throws IOException, ParseException {
         InputStream is = new FileInputStream(pathVotacao);
         InputStreamReader isr = new InputStreamReader(is, "ISO-8859-1");
         BufferedReader br = new BufferedReader(isr);
@@ -152,7 +150,7 @@ public class SistemaEleitoral {
                 }
 
                 if (i == 13 && codUE != this.codMunicipio) break;
-                if (i == 17 && codCargo != SistemaEleitoral.codCargo) break;
+                if (i == 17 && codCargo != SistemaEleitoral.CARGO_VEREADOR) break;
             }
             
             /**
@@ -163,7 +161,7 @@ public class SistemaEleitoral {
              * Se o numero for de 0 a 99, é um partido
              * Se o numero for de 100 a 999999, é um candidato
              */
-            if (codUE == this.codMunicipio && codCargo == SistemaEleitoral.codCargo) {
+            if (codUE == this.codMunicipio && codCargo == SistemaEleitoral.CARGO_VEREADOR) {
                 if (numero <=  99) {
                     Partido partido = this.partidos.get(numero);
                     if (partido != null) { 
@@ -261,4 +259,4 @@ public class SistemaEleitoral {
     public int getVotosNominais() { 
         return this.votosNominais;
     }
-}   
+}

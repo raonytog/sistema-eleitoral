@@ -1,43 +1,71 @@
+import java.io.IOException;
+import java.text.ParseException;
+
+/** 
+ * Para devido funcionamento, o programa espera receber 4 argumentos da linha de comando:
+ * <Codigo do municipio> <caminho do csv de candidatos> <caminho do csv dos votos> <dia da votacao>
+ * Caso não siga esses requisitos, o programa se encerrará.
+ */
 public class Main {
-    public static void main(String[] args) throws Exception {
-        int codMunicipio = Integer.parseInt(args[0]);
-        String pathCandidatos = args[1];
-        String pathVotacao = args[2];
-        String diaVotacao = args[3];
+    public static void main(String[] args) {
+        if (args.length < 4) return;
 
-        SistemaEleitoral sistema = new SistemaEleitoral(codMunicipio, pathCandidatos, diaVotacao);
-        Relatorios relatorios = new Relatorios(sistema);
+        try {
+            int codMunicipio = Integer.parseInt(args[0]);
+            String pathCandidatos = args[1];
+            String pathVotacao = args[2];
+            String diaVotacao = args[3];
 
-        sistema.contabilizaVotos(pathVotacao);
+            SistemaEleitoral sistema = new SistemaEleitoral(codMunicipio, pathCandidatos, diaVotacao);
+            sistema.contabilizaVotos(pathVotacao);
 
-        relatorios.imprimeNumeroDeVagas();
-        System.out.println();
-        
-        relatorios.imprimeVereadoresEleitos();
-        System.out.println();
-        
-        relatorios.imprimeCandidatosMaisVotados();
-        System.out.println();
-        
-        relatorios.imprimeSeriamEleitos();
-        System.out.println();
+            /** Gera os relatorios */
+            Relatorios relatorios = new Relatorios(sistema);
+            relatorios.imprimeNumeroDeVagas();
+            System.out.println();
 
-        relatorios.imprimeEleitosBeneficiados();
-        System.out.println();
+            /** 1 */
+            relatorios.imprimeVereadoresEleitos();
+            System.out.println();
+            
+            /** 2 */
+            relatorios.imprimeCandidatosMaisVotados();
+            System.out.println();
+            
+            /** 3 */
+            relatorios.imprimeSeriamEleitos();
+            System.out.println();
 
-        relatorios.imprimePartidosMaisVotados();
-        System.out.println();
+            /** 4 */
+            relatorios.imprimeEleitosBeneficiados();
+            System.out.println();
 
-        relatorios.imprimeExtremosDosPartidos();
-        System.out.println();
+            /** 5 */
+            relatorios.imprimePartidosMaisVotados();
+            System.out.println();
 
-        relatorios.imprimeEleitosPorIdade();
-        System.out.println();
-        
-        relatorios.imprimeEleitosPorGenero();
-        System.out.println();
+            /** 6 */
+            relatorios.imprimeExtremosDosPartidos();
+            System.out.println();
 
-        relatorios.imprimePorcentagensDeVoto();
-        System.out.println();
+            /** 7 */
+            relatorios.imprimeEleitosPorIdade();
+            System.out.println();
+
+            /** 8 */
+            relatorios.imprimeEleitosPorGenero();
+            System.out.println();
+
+            /** 9 */
+            relatorios.imprimePorcentagensDeVoto();
+            System.out.println();
+
+        } catch (IOException e) {
+            System.out.println("Erro ao manipular fluxo de entrada e saida.\n");
+
+        } catch (ParseException e) {
+            System.out.println("Código do municipio inválido, deve ser passado como um inteiro, sem aspas");
+
+        }
     }
 }

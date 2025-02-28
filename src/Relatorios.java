@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class Relatorios {
-    private SistemaEleitoral sistema;
+    private final SistemaEleitoral sistema;
 
     /**
      * @param sistema Inicializa o relatorio com o sistema eleitoral para manipulação dos dados
@@ -12,14 +12,12 @@ public class Relatorios {
         this.sistema = sistema;
     }
 
-
     /**
      * @return Obtem o sistema eleitoral
      */
     public SistemaEleitoral getSistemaEleitoral() { 
         return this.sistema;
     }
-
 
     /**
      * Imprime o numero de vagas disponíveis para eleição, no caso dos vereadores
@@ -75,7 +73,7 @@ public class Relatorios {
         for (Candidato candidato : maisVotados) {
             if (i > this.getSistemaEleitoral().getQtdEleitos()) break;
 
-            if (candidato.getEleito() != 2 && candidato.getEleito() != 3) {
+            if (candidato.getCandidatoFoiEleito() == false) {
                 System.out.print(i + " - ");
                 System.out.println(candidato);
             }
@@ -93,7 +91,7 @@ public class Relatorios {
         List<Candidato> maisVotados = this.getSistemaEleitoral().ordenaCandidatos();
         int i = 1;
         for (Candidato candidato : maisVotados) {
-            if (i > this.getSistemaEleitoral().getQtdEleitos() && (candidato.getEleito() == 2 || candidato.getEleito() == 3)) {
+            if (i > this.getSistemaEleitoral().getQtdEleitos() && candidato.getCandidatoFoiEleito()) {
                 System.out.print(i + " - ");
                 System.out.println(candidato);
             }

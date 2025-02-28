@@ -3,9 +3,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Partido {
-    private int numero;
-    private String sigla;
-    private int federacao;
+    private final int numero;
+    private final String sigla;
+    private final int federacao;
 
     private List<Candidato> candidatos = new LinkedList<>();
 
@@ -30,67 +30,81 @@ public class Partido {
     }
 
     /**
+     * Pre condição: Partido existente
      * @return Retorna o numero de votacao para o partido
      */
     public int getNumero() {
-        return numero;
+        return this.numero;
     }
 
     /**
+     * Pre condição: Partido existente
      * @return Retorna a sigla do partido
      */
     public String getSigla() {
-        return sigla;
+        return this.sigla;
     }
 
     /**
+     * Pre condição: Partido existente
      * @return Retorna um numero de federação > 0 caso o partido pertença a alguma federação
      */
     public int getFederacao() {
-        return federacao;
+        return this.federacao;
     }
 
+    /**
+     * Pre condição: Partido existente
+     * @return Obtem uma cópia dos candidatos presentes no partido
+     */
     public List<Candidato> getCandidatos() {
         List<Candidato> copy = new LinkedList<>(this.candidatos);
         return copy;
     }
 
     /**
+     * Pre condição: Partido existente
      * @return Retorna numero total vereadores eleitos no partido
      */
     public int getTotalEleitos() {
-        return totalEleitos;
+        return this.totalEleitos;
     }
 
     /**
+     * Pre condição: Partido existente
      * @return Retorna numero total votos nominais recorrentes no partido
      */
     public int getVotosNominais() {
-        return votosNominais;
+        return this.votosNominais;
     }
 
     /**
+     * Pre condição: Partido existente
      * @return Retorna numero total votos de legenda recorrentes no partido
      */
     public int getVotosLegenda() {
-        return votosLegenda;
+        return this.votosLegenda;
     }
 
     /**
+     * Pre condição: Partido existente
      * @return Retorna a soma dos votos nominais e de legenda do partido
      */
     public int getVotosTotais() {
-        return votosLegenda + votosNominais;
+        return this.votosLegenda + votosNominais;
     }
 
     /**
+     * Pre condição: Partido existente
      * @return Retorna o candidato mais votado do partido
      */
     public Candidato getMaisVotado() {
-        return maisVotado;
+        return this.maisVotado;
     }
 
     /**
+     * Pre condição: Partido existente
+     * 
      * Seta o candidato como o mais votado do partido
      * @param c Candidato mais votado
      */
@@ -99,14 +113,17 @@ public class Partido {
     }
 
     /**
+     * Pre condição: Partido existente
      * Retorna o candidato menos votado do partido
      */
     public Candidato getMenosVotado() {
-        return menosVotado;
+        return this.menosVotado;
     }
 
 
     /**
+     * Pre condição: Partido existente
+     * 
      * Seta o candidato como o menos votado do partido
      * @param c Candidato menos votado
      */
@@ -116,6 +133,8 @@ public class Partido {
 
 
     /**
+     * Pre condição: Partido existente
+     * 
      * Adiciona um candidato como mais ou menos votado, seguindo os criterios de:
      * numero de votos e mais velho.
      * 
@@ -140,6 +159,8 @@ public class Partido {
     }
 
     /**
+     * Pre condição: Partido existente
+     * 
      * Aumenta a quantidade de votos de legenda do partido em 'qtdVotos'
      * @param qtdVotos quantidade de votos
      */
@@ -148,6 +169,7 @@ public class Partido {
     }
 
     /**
+     * Pre condição: Partido existente
      * Aumenta a quantidade de votos de nominais do partido em 'qtdVotos'
      * @param qtdVotos quantidade de votos
      */
@@ -156,6 +178,8 @@ public class Partido {
     }
 
     /**
+     * Pre condição: Partido existente
+     * 
      * Incrementa o total de eleitos no partido
      * @param qtdVotos quantidade de votos
      */
