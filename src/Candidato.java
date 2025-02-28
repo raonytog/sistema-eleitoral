@@ -34,10 +34,8 @@ public class Candidato {
         this.eleito = eleito;
         this.genero = genero;
 
-        if (this.eleito == 2 || this.eleito == 3)
-            this.partido.incrementaEleitos();
+        if (this.eleito == 2 || this.eleito == 3) this.partido.incrementaEleitos();
     }
-
 
     /**
      * Pre condição: Candidato existente

@@ -19,42 +19,44 @@ public class Main {
 
             /** Gera os relatorios */
             Relatorios relatorios = new Relatorios(sistema);
+
+            /** 1 */
             relatorios.imprimeNumeroDeVagas();
             System.out.println();
 
-            /** 1 */
+            /** 2 */
             relatorios.imprimeVereadoresEleitos();
             System.out.println();
             
-            /** 2 */
+            /** 3 */
             relatorios.imprimeCandidatosMaisVotados();
             System.out.println();
             
-            /** 3 */
+            /** 4 */
             relatorios.imprimeSeriamEleitos();
             System.out.println();
 
-            /** 4 */
+            /** 5 */
             relatorios.imprimeEleitosBeneficiados();
             System.out.println();
 
-            /** 5 */
+            /** 6 */
             relatorios.imprimePartidosMaisVotados();
             System.out.println();
 
-            /** 6 */
+            /** 7 */
             relatorios.imprimeExtremosDosPartidos();
             System.out.println();
 
-            /** 7 */
+            /** 8 */
             relatorios.imprimeEleitosPorIdade();
             System.out.println();
 
-            /** 8 */
+            /** 9 */
             relatorios.imprimeEleitosPorGenero();
             System.out.println();
 
-            /** 9 */
+            /** 10 */
             relatorios.imprimePorcentagensDeVoto();
             System.out.println();
 

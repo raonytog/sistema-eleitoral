@@ -120,7 +120,6 @@ public class Partido {
         return this.menosVotado;
     }
 
-
     /**
      * Pre condição: Partido existente
      * 
@@ -130,7 +129,6 @@ public class Partido {
     public void setMenosVotado(Candidato c) {
         this.menosVotado = c;
     }
-
 
     /**
      * Pre condição: Partido existente
