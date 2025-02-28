@@ -111,7 +111,7 @@ public class Relatorios {
         List<Partido> maisVotados = this.getSistemaEleitoral().ordenaPartidos();
         int i = 1;
         for (Partido partido : maisVotados) {
-            String out = "";
+            String out;
             int v = partido.getVotosTotais();
             if (v > 1) out = i + " - " + partido + ", " + brFormat.format(partido.getVotosTotais()) + " votos ";
             else out = i + " - " + partido + ", " + brFormat.format(partido.getVotosTotais()) + " voto ";
@@ -167,7 +167,7 @@ public class Relatorios {
     public void imprimeEleitosPorIdade() {
         int total = this.getSistemaEleitoral().getCandidatosEleitos().size();
 
-        int idade = 0, menorQue30 = 0, menorQue40 = 0, menorQue50 = 0, menorQue60 = 0, demais = 0;
+        int idade, menorQue30 = 0, menorQue40 = 0, menorQue50 = 0, menorQue60 = 0, demais = 0;
         for (Candidato c: this.getSistemaEleitoral().getCandidatosEleitos()) {
             idade = c.getIdade(this.getSistemaEleitoral().getDiaVotacao());
             if (idade < 30) menorQue30++;

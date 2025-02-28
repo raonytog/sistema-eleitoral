@@ -18,7 +18,7 @@ public class SistemaEleitoral {
 
     private final int codMunicipio;
     private static final int CARGO_VEREADOR = 13;
-    private static final int ELEITO_NULO = -1;
+    private static final int CANDIDATURA_NULA = -1;
 
     /**
      * Inicializa o sistema eleitoral, preenchendo seu conteudo com seus candidatos, partidos e
@@ -93,7 +93,7 @@ public class SistemaEleitoral {
             }
 
             /** Caso seja o municipio em analise e vereador e o candidato continua na eleicao */
-            if (codUE == codMunicipio && codCargo == SistemaEleitoral.CARGO_VEREADOR && eleito > SistemaEleitoral.ELEITO_NULO) {
+            if (codUE == codMunicipio && codCargo == SistemaEleitoral.CARGO_VEREADOR && eleito > SistemaEleitoral.CANDIDATURA_NULA) {
                 Candidato candidato = new Candidato(nomeCandidato, numeroCandidato, this.partidos.get(numeroPartido), nascimento, eleito, genero);
                 this.candidatos.put(numeroCandidato, candidato);
 
@@ -223,7 +223,6 @@ public class SistemaEleitoral {
         return lista;
     }
 
-
     /**
      * @return Retorna a quantidade de vereadores eleitos na eleicao
      */
@@ -237,7 +236,6 @@ public class SistemaEleitoral {
     public List<Candidato> getCandidatosEleitos() {
         return new LinkedList<>(this.eleitos);
     }
-
     
     /**
      * @return Retorna o dia da apuração dos votos

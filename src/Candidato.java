@@ -4,16 +4,16 @@ import java.time.Period;
 import java.util.Locale;
 
 public class Candidato {
-    private String nome;
-    private int numero;
-    private Partido partido;
+    private final String nome;
+    private final int numero;
+    private final Partido partido;
 
     private int votos;
 
-    private LocalDate nascimento;
+    private final LocalDate nascimento;
 
-    private int genero;
-    private int eleito;
+    private final int genero;
+    private final int eleito;
 
     private static final int ELEITO_QP = 2;
     private static final int ELEITO_MEDIA = 3;

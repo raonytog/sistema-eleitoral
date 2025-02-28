@@ -8,7 +8,10 @@ import java.text.ParseException;
  */
 public class Main {
     public static void main(String[] args) {
-        if (args.length < 4) return;
+        if (args.length < 4) {
+            System.out.println("Quantidade de argumentos insuficiente para funcionamento do programa\n");
+            return;
+        }
 
         try {
             SistemaEleitoral sistema = new SistemaEleitoral(Integer.parseInt(args[0]), args[1], args[3]);

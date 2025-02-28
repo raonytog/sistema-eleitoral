@@ -7,7 +7,7 @@ public class Partido {
     private final String sigla;
     private final int federacao;
 
-    private List<Candidato> candidatos = new LinkedList<>();
+    private final List<Candidato> candidatos = new LinkedList<>();
 
     private int totalEleitos;
     private int votosNominais;
